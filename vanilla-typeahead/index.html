@@ -84,6 +84,36 @@
 </body>
 
 <script>
+    const chars = [];
+    const list = document.getElementById('list')
+    const search = document.querySelector('input')
+
+    fetch ('https://swapi.co/api/people')
+        .then((response) =>{
+            return response.json();
+        })
+        .then((response) =>{
+            chars.push(...response.results)
+        })
+
+    function render (array){
+        const html = array.join('');
+        list.innerHTML = html;
+    }
+    function filterText(){
+        let filtered = chars
+        .filter(element => {
+        let lowercaseElement = element.name.toLowerCase()
+        return lowercaseElement.includes(this.value.toLowerCase())
+        })
+        .map((element) =>{
+           return `<li>${element.name}</li>`
+        })
+        if (filtered.length){
+            render (filtered)
+        }
+    }
+    search.addEventListener('keyup', filterText);
 </script>
 
 </html>
