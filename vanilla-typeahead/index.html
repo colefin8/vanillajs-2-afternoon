@@ -21,7 +21,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 200px;
+            width: 300px;
             position: relative
         }
 
@@ -61,7 +61,7 @@
 
         .card-container {
             height: 250px;
-            width: 200px;
+            width: 300px;
             border: 1px solid black;
             border-radius: 5px;
             display: flex;
@@ -87,6 +87,7 @@
     const chars = [];
     const list = document.getElementById('list')
     const search = document.querySelector('input')
+    list.style.display = "none";
 
     fetch ('https://swapi.co/api/people')
         .then((response) =>{
@@ -101,19 +102,35 @@
         list.innerHTML = html;
     }
     function filterText(){
+      
         let filtered = chars
         .filter(element => {
         let lowercaseElement = element.name.toLowerCase()
-        return lowercaseElement.includes(this.value.toLowerCase())
+        let lowercaseText = this.value.toLowerCase()
+        if(lowercaseElement.includes(lowercaseText) && (search.value))
+        {
+            return true;
+        }
+        
+        // return lowercaseElement.includes(this.value.toLowerCase())
+
         })
         .map((element) =>{
-           return `<li>${element.name}</li>`
+        return `<li>${element.name}</li>`
         })
+        if(search.value  &&  (filtered.length > 0))
+        {
+            list.style.display = 'block';
+        } else {
+            list.style.display = 'none';
+        }
         if (filtered.length){
             render (filtered)
         }
+
     }
     search.addEventListener('keyup', filterText);
+
 </script>
 
 </html>
